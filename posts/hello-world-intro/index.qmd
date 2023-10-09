@@ -1,0 +1,12 @@
+---
+title: "Welcome to my blog!"
+author: "Sashwat Venkatesh"
+date: '2023-10-05'
+categories: [welcome]
+image: "/Users/sashwat/Downloads/favicon_package_v0.16/android-chrome-512x512.png"
+format: 
+  html:
+    code-fold: true
+---
+
+This is the best thing I've probably ever written. And that's saying a lot.

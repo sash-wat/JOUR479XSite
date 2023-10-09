@@ -1,0 +1,26 @@
+project:
+  type: website
+
+website:
+  title: "Sashwat's 479X Blog"
+  description: "479X Analysis Blog"
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/sash-wat
+      - icon: twitter
+        href: https://twitter.com/sash_wat117
+format:
+  html:
+    theme: 
+      light: litera
+      dark: cyborg
+    css: styles.css
+
+editor: source
+
+execute:
+  freeze: auto
+
+
