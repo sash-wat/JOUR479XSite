@@ -1,0 +1,20 @@
+---
+title: "Big Ten Big Plays"
+author: "Sashwat Venkatesh"
+date: "2023-10-10"
+categories: [news]
+format:
+  html:
+    code-fold: true
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+games2022 <- read_csv("https://dwillis.github.io/sports-data-files/footballlogs22.csv")
+games2023 <- read_csv("https://dwillis.github.io/sports-data-files/footballlogs23.csv")
+games2022
+```
+
