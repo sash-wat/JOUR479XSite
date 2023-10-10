@@ -15,6 +15,5 @@ library(tidyverse)
 ```{r}
 games2022 <- read_csv("https://dwillis.github.io/sports-data-files/footballlogs22.csv")
 games2023 <- read_csv("https://dwillis.github.io/sports-data-files/footballlogs23.csv")
-games2022
 ```
 

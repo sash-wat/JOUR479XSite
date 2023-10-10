@@ -1,0 +1,20 @@
+"0","games2022 <- read_csv(""https://dwillis.github.io/sports-data-files/footballlogs22.csv"")"
+"2","[1mRows: [22m[34m1672[39m [1mColumns: [22m[34m54[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m   (8): HomeAway, Opponent, Result, TeamFull, TeamURL, Outcome, Team, Conference
+[32mdbl[39m  (45): Game, PassingCmp, PassingAtt, PassingPct, PassingYds, PassingTD, RushingAtt, RushingYds, RushingAvg, RushingTD, OffensivePl...
+[34mdate[39m  (1): Date"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."
+"0","games2023 <- read_csv(""https://dwillis.github.io/sports-data-files/footballlogs23.csv"")"
+"2","[1mRows: [22m[34m752[39m [1mColumns: [22m[34m54[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m   (8): HomeAway, Opponent, Result, TeamFull, TeamURL, Outcome, Team, Conference
+[32mdbl[39m  (45): Game, PassingCmp, PassingAtt, PassingPct, PassingYds, PassingTD, RushingAtt, RushingYds, RushingAvg, RushingTD, OffensivePl...
+[34mdate[39m  (1): Date"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."
