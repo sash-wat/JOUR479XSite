@@ -234,29 +234,25 @@ date  (1): Date
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>games2022</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>big10 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Maryland Terrapins"</span>, <span class="st">"Illinois Fightning Illini"</span>, <span class="st">"Wisconsin Badgers"</span>, <span class="st">"Michigan State Spartans"</span>, <span class="st">"Michigan Wolverines"</span>, <span class="st">"Indiana Hoosiers"</span>, <span class="st">"Ohio State Buckeyes"</span>, <span class="st">"Penn State Nittany Lions"</span>, <span class="st">"Rutgers Scarlet Knights"</span>, <span class="st">"Iowa Hawkeyes"</span>, <span class="st">"Minnesota Golden Gophers"</span>, <span class="st">"Nebraska Cornhuskers"</span>, <span class="st">"Northwestern Wildcats"</span>, <span class="st">"Purdue Boilermakers"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>b10_games2022 <span class="ot">&lt;-</span> games2022 <span class="sc">|&gt;</span> <span class="fu">filter</span>(TeamFull <span class="sc">%in%</span> big10)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>b10_games2023 <span class="ot">&lt;-</span> games2023 <span class="sc">|&gt;</span> <span class="fu">filter</span>(TeamFull <span class="sc">%in%</span> big10)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>games2022_playsPerGame <span class="ot">&lt;-</span> b10_games2022 <span class="sc">|&gt;</span> <span class="fu">group_by</span>(TeamFull) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">avgOffPlays =</span> <span class="fu">sum</span>(OffensivePlays)<span class="sc">/</span><span class="fu">n</span>()) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(avgOffPlays))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>games2023_playsPerGame <span class="ot">&lt;-</span> b10_games2023 <span class="sc">|&gt;</span> <span class="fu">group_by</span>(TeamFull) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">avgOffPlays =</span> <span class="fu">sum</span>(OffensivePlays)<span class="sc">/</span><span class="fu">n</span>())</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>games2022_playsPerGame, </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>TeamFull, <span class="at">weight=</span>avgOffPlays, <span class="at">fill=</span><span class="st">"red"</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Offensive Plays Per Game"</span>) <span class="sc">+</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Team"</span>) <span class="sc">+</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,672 × 54
-    Game Date       HomeAway Opponent    Result PassingCmp PassingAtt PassingPct
-   &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
- 1     1 2022-09-03 N        Oregon      W (49…         30         37       81.1
- 2     2 2022-09-10 &lt;NA&gt;     Samford     W (33…         29         43       67.4
- 3     3 2022-09-17 @        South Caro… W (48…         21         30       70  
- 4     4 2022-09-24 &lt;NA&gt;     Kent State  W (39…         27         36       75  
- 5     5 2022-10-01 @        Missouri    W (26…         24         44       54.5
- 6     6 2022-10-08 &lt;NA&gt;     Auburn      W (42…         22         32       68.8
- 7     7 2022-10-15 &lt;NA&gt;     Vanderbilt  W (55…         32         41       78  
- 8     8 2022-10-29 N        Florida     W (42…         19         38       50  
- 9     9 2022-11-05 &lt;NA&gt;     Tennessee   W (27…         17         25       68  
-10    10 2022-11-12 @        Mississipp… W (45…         25         37       67.6
-# ℹ 1,662 more rows
-# ℹ 46 more variables: PassingYds &lt;dbl&gt;, PassingTD &lt;dbl&gt;, RushingAtt &lt;dbl&gt;,
-#   RushingYds &lt;dbl&gt;, RushingAvg &lt;dbl&gt;, RushingTD &lt;dbl&gt;, OffensivePlays &lt;dbl&gt;,
-#   OffensiveYards &lt;dbl&gt;, OffenseAvg &lt;dbl&gt;, FirstDownPass &lt;dbl&gt;,
-#   FirstDownRush &lt;dbl&gt;, FirstDownPen &lt;dbl&gt;, FirstDownTotal &lt;dbl&gt;,
-#   Penalties &lt;dbl&gt;, PenaltyYds &lt;dbl&gt;, Fumbles &lt;dbl&gt;, Interceptions &lt;dbl&gt;,
-#   TotalTurnovers &lt;dbl&gt;, TeamFull &lt;chr&gt;, TeamURL &lt;chr&gt;, Outcome &lt;chr&gt;, …</code></pre>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 
