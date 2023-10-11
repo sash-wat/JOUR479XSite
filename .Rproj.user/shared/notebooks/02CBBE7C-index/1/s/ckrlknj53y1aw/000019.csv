@@ -1,0 +1,8 @@
+"0","differentials <- data.frame("
+"0","  Team = games2022_playsPerGame$TeamFull,"
+"0","  playsPerGame2023 = games2023_playsPerGame$avgOffPlays,"
+"0","  playsPerGame2022 = games2022_playsPerGame$avgOffPlays"
+"0",")"
+"0","differentials <- differentials |> mutate(Differential = differentials$playsPerGame2023 - differentials$playsPerGame2022)"
+"0",""
+"0","differentials |> arrange(desc(Differential))"

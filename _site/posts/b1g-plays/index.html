@@ -9,7 +9,7 @@
 <meta name="author" content="Sashwat Venkatesh">
 <meta name="dcterms.date" content="2023-10-10">
 
-<title>Sashwat’s 479X Blog - Big Ten Big Plays</title>
+<title>Sashwat’s 479X Blog - Less is More? Big Ten Teams Run Less Plays, But Powerhouses Remain Unaffected</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -145,7 +145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Big Ten Big Plays</h1>
+      <h1 class="title">Less is More? Big Ten Teams Run Less Plays, But Powerhouses Remain Unaffected</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">news</div>
               </div>
@@ -183,6 +183,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+<p>The NCAA’s new clock rules in football were implemented with a view to shorten games and make the viewer experience more palatable. Have they done that? Let’s take a look within the context of the Big Ten:</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -239,7 +240,7 @@ date  (1): Date
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>b10_games2022 <span class="ot">&lt;-</span> games2022 <span class="sc">|&gt;</span> <span class="fu">filter</span>(TeamFull <span class="sc">%in%</span> big10)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>b10_games2023 <span class="ot">&lt;-</span> games2023 <span class="sc">|&gt;</span> <span class="fu">filter</span>(TeamFull <span class="sc">%in%</span> big10)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>games2022_playsPerGame <span class="ot">&lt;-</span> b10_games2022 <span class="sc">|&gt;</span> <span class="fu">group_by</span>(TeamFull) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">avgOffPlays =</span> <span class="fu">sum</span>(OffensivePlays)<span class="sc">/</span><span class="fu">n</span>()) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(avgOffPlays))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>games2022_playsPerGame <span class="ot">&lt;-</span> b10_games2022 <span class="sc">|&gt;</span> <span class="fu">group_by</span>(TeamFull) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">avgOffPlays =</span> <span class="fu">sum</span>(OffensivePlays)<span class="sc">/</span><span class="fu">n</span>())</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>games2023_playsPerGame <span class="ot">&lt;-</span> b10_games2023 <span class="sc">|&gt;</span> <span class="fu">group_by</span>(TeamFull) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">avgOffPlays =</span> <span class="fu">sum</span>(OffensivePlays)<span class="sc">/</span><span class="fu">n</span>())</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
@@ -249,12 +250,63 @@ date  (1): Date
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Offensive Plays Per Game"</span>) <span class="sc">+</span></span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Team"</span>) <span class="sc">+</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Offensive Plays Per Game by Big Ten Teams, 2022"</span>)<span class="sc">+</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Looking at the Big Ten teams in 2022, we can see that the perennial Big Ten powerhouses, like Ohio State and Penn State, weren’t necessarily the ones running the most offensive plays. The bar chart we’ve generated here indicates that Northwestern and Purdue, teams that aren’t known for “running” the Big ten like OSU and Penn State are, might suffer from some sort of offensive inefficiency.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>games2023_playsPerGame, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>TeamFull, <span class="at">weight=</span>avgOffPlays)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Offensive Plays Per Game"</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Team"</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Offensive Plays Per Game by Big Ten Teams, 2023"</span>)<span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Once again, in 2023, Purdue is amongst the top teams in terms of Offensive Plays run per game, and sit at a measly 2-4 on the season.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>differentials <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Team =</span> games2022_playsPerGame<span class="sc">$</span>TeamFull,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">playsPerGame2023 =</span> games2023_playsPerGame<span class="sc">$</span>avgOffPlays,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">playsPerGame2022 =</span> games2022_playsPerGame<span class="sc">$</span>avgOffPlays</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>differentials <span class="ot">&lt;-</span> differentials <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Differential =</span> differentials<span class="sc">$</span>playsPerGame2023 <span class="sc">-</span> differentials<span class="sc">$</span>playsPerGame2022)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>differentials <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(Differential))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       Team playsPerGame2023 playsPerGame2022 Differential
+1  Penn State Nittany Lions         80.60000         70.07692    10.523077
+2         Wisconsin Badgers         71.40000         63.61538     7.784615
+3   Michigan State Spartans         67.60000         64.41667     3.183333
+4   Rutgers Scarlet Knights         62.16667         63.50000    -1.333333
+5      Nebraska Cornhuskers         62.00000         63.41667    -1.416667
+6       Purdue Boilermakers         73.00000         74.92857    -1.928571
+7        Maryland Terrapins         68.33333         70.38462    -2.051282
+8  Minnesota Golden Gophers         63.66667         66.30769    -2.641026
+9             Iowa Hawkeyes         55.50000         59.38462    -3.884615
+10      Ohio State Buckeyes         62.80000         67.38462    -4.584615
+11         Indiana Hoosiers         66.40000         73.25000    -6.850000
+12    Northwestern Wildcats         66.50000         73.83333    -7.333333
+13      Michigan Wolverines         59.66667         69.28571    -9.619048</code></pre>
+</div>
+</div>
+<p>Looking at the differentials between seasons, the new clock rule intended to shorten games seems to be doing just that – in the Big Ten at least. Of the Big Ten’s teams, just 3 have logged an increased in an average number of plays run per game. Those teams, Penn State, Wisconsin, and Michigan State, are 5-0, 4-1, and 2-3, respectively, indicating that there’s something missing here. What are Penn State and Wisconsin doing differently to only have one loss between them?</p>
+<p>(The Badgers’ one loss was to #19 Washington State by 9 points, a result of falling behind early on in what was otherwise an even matchup on paper)</p>
 
 
 
