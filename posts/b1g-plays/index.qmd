@@ -8,7 +8,7 @@ format:
     code-fold: true
 ---
 
-```{r}
+```{r echo = T, results = 'hide'}
 library(tidyverse)
 ```
 

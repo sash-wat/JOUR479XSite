@@ -29,7 +29,7 @@
 "0","ggplot() + "
 "0","  geom_bar("
 "0","    data=games2022_playsPerGame, "
-"0","    aes(x=TeamFull, weight=avgOffPlays, fill=""red"")"
+"0","    aes(x=TeamFull, weight=avgOffPlays)"
 "0","  ) +"
 "0","  ylab(""Offensive Plays Per Game"") +"
 "0","  xlab(""Team"") +"
