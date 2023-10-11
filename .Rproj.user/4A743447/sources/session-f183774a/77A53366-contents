@@ -27,7 +27,7 @@ games2023_playsPerGame <- b10_games2023 |> group_by(TeamFull) |> summarize(avgOf
 ggplot() + 
   geom_bar(
     data=games2022_playsPerGame, 
-    aes(x=TeamFull, weight=avgOffPlays, fill="red")
+    aes(x=TeamFull, weight=avgOffPlays)
   ) +
   ylab("Offensive Plays Per Game") +
   xlab("Team") +

@@ -3,7 +3,7 @@
     "path": "~/Desktop/JOUR479XSite/posts/b1g-plays/index.qmd",
     "project_path": "posts/b1g-plays/index.qmd",
     "type": "quarto_markdown",
-    "hash": "0",
+    "hash": "2098896290",
     "contents": "",
     "dirty": false,
     "created": 1696966572609.0,
@@ -13,15 +13,15 @@
         "rmdVisualMode": "false",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "4,18",
-        "scrollLine": "1"
+        "cursorPosition": "29,38",
+        "scrollLine": "18"
     },
     "folds": "",
-    "lastKnownWriteTime": 1696977045,
+    "lastKnownWriteTime": 1696995278,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1696977045751,
+    "last_content_update": 1696995322480,
     "read_only": false,
     "read_only_alternatives": []
 }
