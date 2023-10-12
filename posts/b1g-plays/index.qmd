@@ -10,7 +10,7 @@ format:
 
 The NCAA's new clock rules in football were implemented with a view to shorten games and make the viewer experience more palatable. Have they done that? Let's take a look within the context of the Big Ten:
 
-```{r echo = T, results = 'hide'}
+```{r, output=false}
 library(tidyverse)
 ```
 
