@@ -28,6 +28,8 @@ b10_games2023 <- games2023 |> filter(TeamFull %in% big10)
 games2022_playsPerGame <- b10_games2022 |> group_by(TeamFull) |> summarize(avgOffPlays = sum(OffensivePlays)/n())
 games2023_playsPerGame <- b10_games2023 |> group_by(TeamFull) |> summarize(avgOffPlays = sum(OffensivePlays)/n())
 
+games2022_playsPerGame <- games2022_playsPerGame |> arrange(desc(avgOffPlays))
+
 ggplot() + 
   geom_bar(
     data=games2022_playsPerGame, 
@@ -35,8 +37,9 @@ ggplot() +
   ) +
   ylab("Offensive Plays Per Game") +
   xlab("Team") +
-  ggtitle("Offensive Plays Per Game by Big Ten Teams, 2022")+
-  coord_flip()
+  ggtitle("2022 Purdue On Top, but Barely")+
+  coord_flip() + 
+  scale_x_discrete(limits = games2022_playsPerGame$TeamFull[order(games2022_playsPerGame$avgOffPlays)])
 
 ```
 Looking at the Big Ten teams in 2022, we can see that the perennial Big Ten powerhouses, like Ohio State and Penn State, weren't necessarily the ones running the most offensive plays. The bar chart we've generated here indicates that Northwestern and Purdue, teams that aren't known for "running" the Big ten like OSU and Penn State are, might suffer from some sort of offensive inefficiency.
@@ -50,8 +53,9 @@ ggplot() +
   ) +
   ylab("Offensive Plays Per Game") +
   xlab("Team") +
-  ggtitle("Offensive Plays Per Game by Big Ten Teams, 2023")+
-  coord_flip()
+  ggtitle("Penn State Surges Ahead This Year")+
+  coord_flip() +
+  scale_x_discrete(limits = games2023_playsPerGame$TeamFull[order(games2023_playsPerGame$avgOffPlays)])
 ```
 Once again, in 2023, Purdue is amongst the top teams in terms of Offensive Plays run per game, and sit at a measly 2-4 on the season.
 
