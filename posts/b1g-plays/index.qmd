@@ -11,9 +11,14 @@ format:
 The NCAA's new clock rules in football were implemented with a view to shorten games and make the viewer experience more palatable. Have they done that? Let's take a look within the context of the Big Ten:
 
 ```{r}
-library(tidyverse)
-games2022 <- read_csv("https://dwillis.github.io/sports-data-files/footballlogs22.csv")
-games2023 <- read_csv("https://dwillis.github.io/sports-data-files/footballlogs23.csv")
+suppressMessages(library(tidyverse))
+```
+
+
+```{r}
+
+suppressMessages(games2022 <- read_csv("https://dwillis.github.io/sports-data-files/footballlogs22.csv"))
+suppressMessages(games2023 <- read_csv("https://dwillis.github.io/sports-data-files/footballlogs23.csv"))
 
 big10 <- c("Maryland Terrapins", "Illinois Fightning Illini", "Wisconsin Badgers", "Michigan State Spartans", "Michigan Wolverines", "Indiana Hoosiers", "Ohio State Buckeyes", "Penn State Nittany Lions", "Rutgers Scarlet Knights", "Iowa Hawkeyes", "Minnesota Golden Gophers", "Nebraska Cornhuskers", "Northwestern Wildcats", "Purdue Boilermakers")
 
