@@ -1,0 +1,16 @@
+{
+  "hash": "f830fe40f11c28a702a11cf718801346",
+  "result": {
+    "markdown": "---\ntitle: \"Mirror Mirror on the Wall, Who's the Best Maryland of Them All?\"\nauthor: \"Sashwat Venkatesh\"\ndate: \"2023-10-24\"\ncategories: [news]\nformat:\n  html:\n    code-fold: true\n---\n\n\nWhen Maryland signed Michael Locksley to be their head coach in December of 2018, the fanbase was desperate for improvements across the board. The Terrapins had amassed just 38 wins over the previous 6 years, with just 5 in 2018. Has the former Alabama Offensive Coordinator truly jumped Maryland into greener pastures?\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsuppressMessages(library(tidyverse))\nsuppressMessages(library(lubridate))\nsuppressMessages(library(ggplot2))\nsuppressMessages(library(ggrepel))\nsuppressMessages(data <- read_csv(\"https://thescoop.org/sports-data-files/footballlogs1123.csv\"))\n```\n\n::: {.cell-output .cell-output-stderr}\n```\nWarning: One or more parsing issues, call `problems()` on your data frame for details,\ne.g.:\n  dat <- vroom(...)\n  problems(dat)\n```\n:::\n\n```{.r .cell-code}\nmaryland <- data |> filter(TeamFull == \"Maryland Terrapins\")\nmaryland <- maryland |> \n  mutate(totalYds = maryland$PassingYds + maryland$RushingYds, \n         defTotalYds = maryland$DefPassingYds + maryland$DefRushingYds\n         )\n\nmaryland$Result[grepl(\"W\", maryland$Result)] <- 1\nmaryland$Result[grepl(\"L\", maryland$Result)] <- 0\nmaryland$Result <- as.integer(maryland$Result)\n\nmarylandByYear <- maryland |> \n  group_by(year(Date)) |> \n  summarise(avgOffYds = sum(totalYds)/sum(OffensivePlays), avgDefYds = sum(defTotalYds)/sum(DefPlays), wins = sum(Result))\n\navgs <- marylandByYear |> \n  ungroup() |> \n  summarise(\n    offense = mean(avgOffYds), \n    defense = mean(avgDefYds)\n    )\n\nggplot() + \n  geom_point(\n    data=marylandByYear, aes(x=avgOffYds, y=avgDefYds, size=wins, color=\"red\")\n    ) +\n  geom_vline(xintercept = avgs$offense) +\n  geom_hline(yintercept = avgs$defense) +\n  geom_text_repel(data=marylandByYear, aes(x=avgOffYds, y=avgDefYds, label=`year(Date)`)) +\n  labs(title=\"A Shift To Offense Since Locksley's Inception\", subtitle=\"4 of Locksley's 5 seasons leading the Terps have seen above average offensive production\" , caption=\"Source: NCAA Data 2011-2023 | By Sashwat Venkatesh\")  + theme_minimal()\n```\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-1-1.png){width=672}\n:::\n:::\n\n\nFrom the data, we can clearly show that Michael Locksley has kickstarted a new era of Terrapins Football. Since he took over as head coach in 2019, in every season since and including 2020, Maryland's average offensive yards per play has been above program average since 2011, 3 of those 4 years have seen lower than program average yards allowed per play while on defense.\n\nLocksley's tenure has also seen 25 wins thus far, with a rocky start in 2019 and 2020, earning just 5 wins across the two years. However, since 21, the program has won 20 games, including 2 bowl victories. So, safe to say, while there was a bumpy start, Maryland has \"Locked In\".\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
