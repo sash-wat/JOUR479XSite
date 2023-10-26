@@ -1,0 +1,43 @@
+---
+title: "Aces"
+author: "Sashwat Venkatesh"
+date: "2023-10-26"
+categories: [news]
+format:
+  html:
+    code-fold: true
+---
+
+So far this season, Maryland's 14-8 record has been anchored by strong defensive play, but have the Terps been able to convert their defense back into offense and put their opponent on the back foot?
+
+```{r}
+suppressMessages(library(tidyverse))
+suppressMessages(library(ggbeeswarm))
+suppressMessages(library(ggrepel))
+set.seed(1234)
+
+suppressMessages(
+  data <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_playerstats_2023.csv") |> filter(!is.na(aces), !is.na(pos))
+)
+
+data <- data |> mutate(apm = aces/mp)
+
+summary(data$apm)
+
+aavg <- data |> filter(apm >= 0.7143)
+
+aavgteam <- aavg |> group_by(team) |> summarise(instances = n())
+
+umd <- aavg |> filter(team == "Maryland Terrapins, Terps")
+
+ggplot() + 
+  geom_quasirandom(data=aavg, aes(x=pos, y=apm), color="grey") + 
+  geom_quasirandom(data=umd, aes(x=pos, y=apm), color="red") +
+  geom_text_repel(data=umd, aes(x=pos, y=apm, label=last_name)) +
+  labs(title="4 Terps Rank in Top 75% of Ace Providers", caption="Source: NCAA Data | By Sashwat Venkatesh")  + theme_minimal() +
+  xlab("Position") +
+  ylab("Aces per Match")
+
+```
+
+Amongst 327 teams, the Terps roster 4 players who are better than the nation's 75th percentile in Aces per match (~0.71). Of note, two of these players, Sam Csire and Lilly Gunter, contribute over 1 aces per match, indicating strong offensive performance when compared to the nation. With four players in the nation's top ranks, the Terps are sure to be a group no one will take for granted come tournament time in December, should they qualify. For other teams, the Terps could play spoiler to those with major tournament hopes.

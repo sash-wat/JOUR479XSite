@@ -1,0 +1,16 @@
+{
+  "hash": "0f131f32ea4302464bcb31c90fb330f7",
+  "result": {
+    "markdown": "---\ntitle: \"Aces\"\nauthor: \"Sashwat Venkatesh\"\ndate: \"2023-10-26\"\ncategories: [news]\nformat:\n  html:\n    code-fold: true\n---\n\n\nSo far this season, Maryland's 14-8 record has been anchored by strong defensive play, but have the Terps been able to convert their defense back into offense and put their opponent on the back foot?\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsuppressMessages(library(tidyverse))\nsuppressMessages(library(ggbeeswarm))\nsuppressMessages(library(ggrepel))\nset.seed(1234)\n\nsuppressMessages(\n  data <- read_csv(\"https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_playerstats_2023.csv\") |> filter(!is.na(aces), !is.na(pos))\n)\n\ndata <- data |> mutate(apm = aces/mp)\n\nsummary(data$apm)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n 0.0000  0.0000  0.2917  0.4165  0.7143  2.4000 \n```\n:::\n\n```{.r .cell-code}\naavg <- data |> filter(apm >= 0.7143)\n\naavgteam <- aavg |> group_by(team) |> summarise(instances = n())\n\numd <- aavg |> filter(team == \"Maryland Terrapins, Terps\")\n\nggplot() + \n  geom_quasirandom(data=aavg, aes(x=pos, y=apm), color=\"grey\") + \n  geom_quasirandom(data=umd, aes(x=pos, y=apm), color=\"red\") +\n  geom_text_repel(data=umd, aes(x=pos, y=apm, label=last_name)) +\n  labs(title=\"4 Terps Rank in Top 75% of Ace Providers\", caption=\"Source: NCAA Data | By Sashwat Venkatesh\")  + theme_minimal() +\n  xlab(\"Position\") +\n  ylab(\"Aces per Match\")\n```\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-1-1.png){width=672}\n:::\n:::\n\n\nAmongst 327 teams, the Terps roster 4 players who are better than the nation's 75th percentile in Aces per match (~0.71). Of note, two of these players, Sam Csire and Lilly Gunter, contribute over 1 aces per match, indicating strong offensive performance when compared to the nation. With four players in the nation's top ranks, the Terps are sure to be a group no one will take for granted come tournament time in December, should they qualify. For other teams, the Terps could play spoiler to those with major tournament hopes.",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
