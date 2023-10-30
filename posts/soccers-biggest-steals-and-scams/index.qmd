@@ -1,0 +1,326 @@
+---
+title: "Soccer's Biggest Steals and Scams: An Analysis of Transfer Business in Soccer Transfer Markets"
+author: "Sashwat Venkatesh"
+date: "2023-10-31"
+categories: [news]
+format:
+  html:
+    code-fold: true
+---
+
+Transfer business has become an absolutely integral part of any soccer club's plans to contend for titles at a domestic, regional, or international level. In this analysis, I've delved into the most expensive transfers of all time, seeing if some big name players really warranted their transfers prices based on accepted market valuations, and officially listed fees, and seeing if there has ever been arbitrage in the player transfer market - a situation where a player was severely undervalued for what they produced.
+
+```{r}
+suppressMessages(library(tidyverse))
+suppressMessages(library(lubridate))
+suppressMessages(library(ggplot2))
+suppressMessages(library(ggrepel))
+
+suppressMessages(clubs <- read_csv("~/Desktop/TransferMarkt Data/clubs.csv"))
+suppressMessages(players <- read_csv("~/Desktop/TransferMarkt Data/players.csv"))
+suppressMessages(player_valuations<- read_csv("~/Desktop/TransferMarkt Data/player_valuations.csv"))
+suppressMessages(games <- read_csv("~/Desktop/TransferMarkt Data/games.csv"))
+suppressMessages(game_events <- read_csv("~/Desktop/TransferMarkt Data/game_events.csv"))
+suppressMessages(comps <- read_csv("~/Desktop/TransferMarkt Data/competitions.csv"))
+suppressMessages(club_games <- read_csv("~/Desktop/TransferMarkt Data/club_games.csv"))
+suppressMessages(appearances <- read_csv("~/Desktop/TransferMarkt Data/appearances.csv"))
+```
+
+From TransferMarkt, an online aggregator of statistics and valuations, we've gathered data on clubs, players, the valuations of players, EVERY game played, and the events within that game, such as bookings, goals, and substitutions, along with details on competitions around the world, games played by clubs, and individual player appearances.
+
+This wide spread of data allows us to do a lot of analysis, which individuals across the internet have applied their data analytics skills to.
+
+NOTE: The data was pulled from https://www.kaggle.com/datasets/davidcariboo/player-scores/data, which is a Kaggle repository that self-updates every week following the conclusion of matchweeks. My version of the data is from the first week of October. The aforementioned data analysis projects can be found in the "Code" tab at the Kaggle link provided.
+
+```{r}
+player_stats <-function(name, year) {
+
+df <- merge(appearances, games, by="game_id", all.x=TRUE)
+
+df$goals_for <- ifelse(df$home_club_id == df$player_club_id, df$home_club_goals,
+                           ifelse(df$away_club_id == df$player_club_id, df$away_club_goals, NA))
+
+df$goals_against <- ifelse(df$home_club_id == df$player_club_id, df$away_club_goals,
+                               ifelse(df$away_club_id == df$player_club_id, df$home_club_goals, NA))
+    df$clean_sheet <- ifelse(df$goals_against == 0, 1,
+                            ifelse(df$goals_against > 0, 0, NA))
+    
+if (year == "all") {
+  df <- df |> group_by(player_id, player_name, season) |> 
+  summarise(
+    g = sum(goals),
+    a = sum(assists),
+    cs = sum(clean_sheet),
+  ) |> filter(player_name == name)
+}
+else {
+  df <- df |> group_by(player_id, player_name, season) |> 
+  summarise(
+    g = sum(goals),
+    a = sum(assists),
+    cs = sum(clean_sheet),
+    app = n()
+  ) |> filter(player_name == name) |> filter(season == year)
+}
+df
+}
+```
+
+
+Using the data, we're actually able to extract players' season by season data, finding out how many goals, assists, clean sheets, and any other values we want per season. I've limited this to
+
+```{r}
+head(player_stats("Lionel Messi", "all"))
+```
+```{r}
+get_pid <- function(player) {
+  pRow <- players |> filter(name == player)
+  pRow$player_id
+}
+
+valuation_history <- function(player) {
+  temp <- player_valuations |> 
+  filter(player_id == get_pid(player)) |> filter(format(date, "%m") == "05" | format(date, "%m") == "06" | format(date, "%m") == "07" | format(date, "%m") == "08") |> 
+  arrange(date)
+
+temp <- temp |>
+  mutate(year = lubridate::year(date)) |>  # Create a new column with the year
+  group_by(year) |>
+  filter(date == max(date)) |>
+  select(-year)
+
+ggplot() +
+  geom_line(data = temp, aes(x=temp$date, y=temp$market_value_in_eur))
+}
+
+goalsGraph <- function(player) {
+  tryCatch(
+    {
+      temp <- player_valuations |> 
+  filter(player_id == get_pid(player)) |> filter(format(date, "%m") == "05" | format(date, "%m") == "06" | format(date, "%m") == "07" | format(date, "%m") == "08") |> 
+  arrange(date)
+
+temp <- temp |>
+  mutate(year = lubridate::year(date)) |>  # Create a new column with the year
+  group_by(year) |>
+  filter(date == max(date)) |>
+  select(-year)
+
+temp2 <- player_stats(player, "all")
+
+t <- list()
+u <- list()
+v <- list()
+
+for (row1 in 1:nrow(temp2)) {
+  for (row2 in 1:nrow(temp)) {
+    if (temp[row2, "year"] == temp2[row1, "season"] + 1) {
+      t <- append(t, temp2[row1, "g"])
+      u <- append(u, temp[row2, "market_value_in_eur"])
+      v <- append(v, temp[row2, "year"])
+    }
+  }
+  
+}
+
+df <- data.frame(goals = unlist(t), value=unlist(u), season=unlist(v))
+
+ggplot() +
+  geom_point(data=df, aes(x=goals, y=value), color="red") +
+  geom_smooth(data=df, aes(x=goals, y=value), method="lm") +
+  geom_text_repel(data=df, aes(x=goals, y=value), label=df$season) +
+  xlab("Goals") +
+  ylab("Market Value, Euros") +
+  labs(title=paste(player, "Market Value vs. Goals Scored") , caption="Source: TransferMarkt Data 2011-2023 | By Sashwat Venkatesh")  + theme_minimal()
+
+    },
+    error=function(e) {
+            message('An Error Occurred')
+            print(e)
+    },
+    warning=function(w) {
+            message('A Warning Occurred')
+            print(w)
+            return(NA)
+    }
+  )
+  
+  }
+```
+
+
+```{r}
+goalsGraph("Lionel Messi")
+```
+
+```{r}
+goalsGraph("Neymar")
+```
+
+```{r}
+goalsGraph("Kylian Mbappé")
+```
+
+```{r}
+goalsGraph("João Félix")
+```
+
+```{r}
+goalsGraphGA <- function(player) {
+  tryCatch(
+    {
+      temp <- player_valuations |> 
+  filter(player_id == get_pid(player)) |> filter(format(date, "%m") == "05" | format(date, "%m") == "06" | format(date, "%m") == "07" | format(date, "%m") == "08") |> 
+  arrange(date)
+
+temp <- temp |>
+  mutate(year = lubridate::year(date)) |>  # Create a new column with the year
+  group_by(year) |>
+  filter(date == max(date)) |>
+  select(-year)
+
+temp2 <- player_stats(player, "all")
+
+t <- list()
+u <- list()
+v <- list()
+
+for (row1 in 1:nrow(temp2)) {
+  for (row2 in 1:nrow(temp)) {
+    if (temp[row2, "year"] == temp2[row1, "season"] + 1) {
+      t <- append(t, temp2[row1, "g"] + temp2[row1, "a"])
+      u <- append(u, temp[row2, "market_value_in_eur"])
+      v <- append(v, temp[row2, "year"])
+    }
+  }
+  
+}
+
+df <- data.frame(goals = unlist(t), value=unlist(u), season=unlist(v))
+
+ggplot() +
+  geom_point(data=df, aes(x=goals, y=value), color="red") +
+  geom_smooth(data=df, aes(x=goals, y=value), method="lm") +
+  geom_text_repel(data=df, aes(x=goals, y=value), label=df$season) +
+  xlab("G+A") +
+  ylab("Market Value, Euros") +
+  labs(title=paste(player, "Market Value vs. G+A") , caption="Source: TransferMarkt Data 2011-2023 | By Sashwat Venkatesh")  + theme_minimal()
+
+    },
+    error=function(e) {
+            message('An Error Occurred')
+            print(e)
+    },
+    warning=function(w) {
+            message('A Warning Occurred')
+            print(w)
+            return(NA)
+    }
+  )
+  
+  }
+```
+
+```{r}
+goalsGraphGA("Philippe Coutinho")
+```
+
+```{r}
+goalsGraphGA("Jack Grealish")
+```
+
+```{r}
+goalsGraphGA("Declan Rice")
+```
+```{r}
+goalsGraphDef <- function(player) {
+  tryCatch(
+    {
+      temp <- player_valuations |> 
+  filter(player_id == get_pid(player)) |> filter(format(date, "%m") == "05" | format(date, "%m") == "06" | format(date, "%m") == "07" | format(date, "%m") == "08") |> 
+  arrange(date)
+
+temp <- temp |>
+  mutate(year = lubridate::year(date)) |>  # Create a new column with the year
+  group_by(year) |>
+  filter(date == max(date)) |>
+  select(-year)
+
+temp2 <- player_stats(player, "all")
+
+t <- list()
+u <- list()
+v <- list()
+
+for (row1 in 1:nrow(temp2)) {
+  for (row2 in 1:nrow(temp)) {
+    if (temp[row2, "year"] == temp2[row1, "season"] + 1) {
+      t <- append(t, temp2[row1, "cs"])
+      u <- append(u, temp[row2, "market_value_in_eur"])
+      v <- append(v, temp[row2, "year"])
+    }
+  }
+  
+}
+
+df <- data.frame(goals = unlist(t), value=unlist(u), season=unlist(v))
+
+ggplot() +
+  geom_point(data=df, aes(x=goals, y=value), color="red") +
+  geom_smooth(data=df, aes(x=goals, y=value), method="lm") +
+  geom_text_repel(data=df, aes(x=goals, y=value), label=df$season) +
+  xlab("Clean Sheets") +
+  ylab("Market Value, Euros") +
+  labs(title=paste(player, "Market Value vs. Clean Sheets") , caption="Source: TransferMarkt Data 2011-2023 | By Sashwat Venkatesh")  + theme_minimal()
+
+    },
+    error=function(e) {
+            message('An Error Occurred')
+            print(e)
+    },
+    warning=function(w) {
+            message('A Warning Occurred')
+            print(w)
+            return(NA)
+    }
+  )
+  
+  }
+```
+
+
+
+
+```{r}
+goalsGraphDef("Harry Maguire")
+```
+
+```{r}
+goalsGraphDef("Virgil van Dijk")
+```
+
+```{r}
+goalsGraphDef("Wesley Fofana")
+```
+
+```{r}
+goalsGraphDef("Lucas Hernández")
+```
+
+
+```{r}
+goalsGraphDef("Kepa Arrizabalaga")
+```
+
+```{r}
+goalsGraphDef("Alisson")
+```
+
+```{r}
+goalsGraphDef("André Onana")
+```
+
+
+Players skipped and reasoning:
+- Enzo Fernandez, Midfielders: <3 seasons
+- Josko Gvardiol, Defender: <3 seasons
