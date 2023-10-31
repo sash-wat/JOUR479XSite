@@ -226,449 +226,570 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">g =</span> <span class="fu">sum</span>(goals),</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">a =</span> <span class="fu">sum</span>(assists),</span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">cs =</span> <span class="fu">sum</span>(clean_sheet),</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">filter</span>(player_name <span class="sc">==</span> name)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span> {</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">group_by</span>(player_id, player_name, season) <span class="sc">|&gt;</span> </span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">g =</span> <span class="fu">sum</span>(goals),</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">a =</span> <span class="fu">sum</span>(assists),</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">cs =</span> <span class="fu">sum</span>(clean_sheet),</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">app =</span> <span class="fu">n</span>()</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">filter</span>(player_name <span class="sc">==</span> name) <span class="sc">|&gt;</span> <span class="fu">filter</span>(season <span class="sc">==</span> year)</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>df</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">yc =</span> <span class="fu">sum</span>(yellow_cards),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">rc =</span> <span class="fu">sum</span>(red_cards),</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">app =</span> <span class="fu">n</span>()</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">filter</span>(player_name <span class="sc">==</span> name)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span> {</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">group_by</span>(player_id, player_name, season) <span class="sc">|&gt;</span> </span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">g =</span> <span class="fu">sum</span>(goals),</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">a =</span> <span class="fu">sum</span>(assists),</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">cs =</span> <span class="fu">sum</span>(clean_sheet),</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">app =</span> <span class="fu">n</span>()</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> <span class="fu">filter</span>(player_name <span class="sc">==</span> name) <span class="sc">|&gt;</span> <span class="fu">filter</span>(season <span class="sc">==</span> year)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>df</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>Using the data, we’re actually able to extract players’ season by season data, finding out how many goals, assists, clean sheets, and any other values we want per season. I’ve limited this to</p>
+<p>Using the data, we’re actually able to extract players’ season by season data, finding out how many goals, assists, clean sheets, and any other values we want per season. I’ve limited this to the key statistics, which include goals, assists, clean sheets, yellow cards, red cards, and appearances.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">player_stats</span>(<span class="st">"Lionel Messi"</span>, <span class="st">"all"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">head</span>(<span class="fu">player_stats</span>(<span class="st">"Lionel Messi"</span>, <span class="st">"all"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 6
+<pre><code># A tibble: 6 × 9
 # Groups:   player_id, player_name [1]
-  player_id player_name  season     g     a    cs
-      &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1     28003 Lionel Messi   2012    60    17    11
-2     28003 Lionel Messi   2013    41    14    19
-3     28003 Lionel Messi   2014    58    31    31
-4     28003 Lionel Messi   2015    41    24    21
-5     28003 Lionel Messi   2016    54    20    19
-6     28003 Lionel Messi   2017    45    20    29</code></pre>
+  player_id player_name  season     g     a    cs    yc    rc   app
+      &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+1     28003 Lionel Messi   2012    60    17    11     2     0    50
+2     28003 Lionel Messi   2013    41    14    19     3     0    46
+3     28003 Lionel Messi   2014    58    31    31     6     0    57
+4     28003 Lionel Messi   2015    41    24    21     5     0    49
+5     28003 Lionel Messi   2016    54    20    19     9     0    52
+6     28003 Lionel Messi   2017    45    20    29     7     0    54</code></pre>
 </div>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>get_pid <span class="ot">&lt;-</span> <span class="cf">function</span>(player) {</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  pRow <span class="ot">&lt;-</span> players <span class="sc">|&gt;</span> <span class="fu">filter</span>(name <span class="sc">==</span> player)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  pRow<span class="sc">$</span>player_id</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>get_pid <span class="ot">&lt;-</span> <span class="cf">function</span>(player) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  pRow <span class="ot">&lt;-</span> players <span class="sc">|&gt;</span> <span class="fu">filter</span>(name <span class="sc">==</span> player)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  pRow<span class="sc">$</span>player_id</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>valuation_history <span class="ot">&lt;-</span> <span class="cf">function</span>(player) {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> player_valuations <span class="sc">|&gt;</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(player_id <span class="sc">==</span> <span class="fu">get_pid</span>(player)) <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"05"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"06"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"07"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"08"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> temp <span class="sc">|&gt;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span>  <span class="co"># Create a new column with the year</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">==</span> <span class="fu">max</span>(date)) <span class="sc">|&gt;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> temp, <span class="fu">aes</span>(<span class="at">x=</span>temp<span class="sc">$</span>date, <span class="at">y=</span>temp<span class="sc">$</span>market_value_in_eur))</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>goalsGraph <span class="ot">&lt;-</span> <span class="cf">function</span>(player) {</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tryCatch</span>(</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>      temp <span class="ot">&lt;-</span> player_valuations <span class="sc">|&gt;</span> </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(player_id <span class="sc">==</span> <span class="fu">get_pid</span>(player)) <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"05"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"06"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"07"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"08"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> temp <span class="sc">|&gt;</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span>  <span class="co"># Create a new column with the year</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">==</span> <span class="fu">max</span>(date)) <span class="sc">|&gt;</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>temp2 <span class="ot">&lt;-</span> <span class="fu">player_stats</span>(player, <span class="st">"all"</span>)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (row1 <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(temp2)) {</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (row2 <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(temp)) {</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (temp[row2, <span class="st">"year"</span>] <span class="sc">==</span> temp2[row1, <span class="st">"season"</span>] <span class="sc">+</span> <span class="dv">1</span>) {</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>      t <span class="ot">&lt;-</span> <span class="fu">append</span>(t, temp2[row1, <span class="st">"g"</span>])</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>      u <span class="ot">&lt;-</span> <span class="fu">append</span>(u, temp[row2, <span class="st">"market_value_in_eur"</span>])</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>      v <span class="ot">&lt;-</span> <span class="fu">append</span>(v, temp[row2, <span class="st">"year"</span>])</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">goals =</span> <span class="fu">unlist</span>(t), <span class="at">value=</span><span class="fu">unlist</span>(u), <span class="at">season=</span><span class="fu">unlist</span>(v))</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">color=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">method=</span><span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">label=</span>df<span class="sc">$</span>season) <span class="sc">+</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Goals"</span>) <span class="sc">+</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Market Value, Euros"</span>) <span class="sc">+</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="fu">paste</span>(player, <span class="st">"Market Value vs. Goals Scored"</span>) , <span class="at">caption=</span><span class="st">"Source: TransferMarkt Data 2011-2023 | By Sashwat Venkatesh"</span>)  <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">error=</span><span class="cf">function</span>(e) {</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">'An Error Occurred'</span>)</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(e)</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">warning=</span><span class="cf">function</span>(w) {</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">'A Warning Occurred'</span>)</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(w)</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>            <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>valueGraph <span class="ot">&lt;-</span> <span class="cf">function</span>(player) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>      temp <span class="ot">&lt;-</span> player_valuations <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(player_id <span class="sc">==</span> <span class="fu">get_pid</span>(player)) <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"05"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"06"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"07"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"08"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>valuation_history <span class="ot">&lt;-</span> <span class="cf">function</span>(player) {</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> player_valuations <span class="sc">|&gt;</span> </span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(player_id <span class="sc">==</span> <span class="fu">get_pid</span>(player)) <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"05"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"06"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"07"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"08"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> temp <span class="sc">|&gt;</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span>  <span class="co"># Create a new column with the year</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">==</span> <span class="fu">max</span>(date)) <span class="sc">|&gt;</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> temp, <span class="fu">aes</span>(<span class="at">x=</span>temp<span class="sc">$</span>date, <span class="at">y=</span>temp<span class="sc">$</span>market_value_in_eur))</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>goalsGraph <span class="ot">&lt;-</span> <span class="cf">function</span>(player) {</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tryCatch</span>(</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>      temp <span class="ot">&lt;-</span> player_valuations <span class="sc">|&gt;</span> </span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(player_id <span class="sc">==</span> <span class="fu">get_pid</span>(player)) <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"05"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"06"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"07"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"08"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date)</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> temp <span class="sc">|&gt;</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span>  <span class="co"># Create a new column with the year</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">==</span> <span class="fu">max</span>(date)) <span class="sc">|&gt;</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>temp2 <span class="ot">&lt;-</span> <span class="fu">player_stats</span>(player, <span class="st">"all"</span>)</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (row1 <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(temp2)) {</span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (row2 <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(temp)) {</span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (temp[row2, <span class="st">"year"</span>] <span class="sc">==</span> temp2[row1, <span class="st">"season"</span>] <span class="sc">+</span> <span class="dv">1</span>) {</span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>      t <span class="ot">&lt;-</span> <span class="fu">append</span>(t, temp2[row1, <span class="st">"g"</span>])</span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>      u <span class="ot">&lt;-</span> <span class="fu">append</span>(u, temp[row2, <span class="st">"market_value_in_eur"</span>])</span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>      v <span class="ot">&lt;-</span> <span class="fu">append</span>(v, temp[row2, <span class="st">"year"</span>])</span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">goals =</span> <span class="fu">unlist</span>(t), <span class="at">value=</span><span class="fu">unlist</span>(u), <span class="at">season=</span><span class="fu">unlist</span>(v))</span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">color=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">method=</span><span class="st">"lm"</span>) <span class="sc">+</span></span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">label=</span>df<span class="sc">$</span>season) <span class="sc">+</span></span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Goals"</span>) <span class="sc">+</span></span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Market Value, Euros"</span>) <span class="sc">+</span></span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="fu">paste</span>(player, <span class="st">"Market Value vs. Goals Scored"</span>) , <span class="at">caption=</span><span class="st">"Source: TransferMarkt Data 2011-2023 | By Sashwat Venkatesh"</span>)  <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">error=</span><span class="cf">function</span>(e) {</span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">'An Error Occurred'</span>)</span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(e)</span>
-<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">warning=</span><span class="cf">function</span>(w) {</span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">'A Warning Occurred'</span>)</span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(w)</span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>            <span class="fu">return</span>(<span class="cn">NA</span>)</span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> temp <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span>  <span class="co"># Create a new column with the year</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">==</span> <span class="fu">max</span>(date)) <span class="sc">|&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>temp, <span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>market_value_in_eur)) <span class="sc">+</span> </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Market Value, Euros"</span>) <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Season"</span>) <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="fu">paste</span>(player, <span class="st">"Market Value by Season"</span>) , <span class="at">caption=</span><span class="st">"Source: TransferMarkt Data 2011-2023 | By Sashwat Venkatesh"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goalsGraph</span>(<span class="st">"Lionel Messi"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">goalsGraph</span>(<span class="st">"Lionel Messi"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>Adding missing grouping variables: `year`
-`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.
-`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goalsGraph</span>(<span class="st">"Neymar"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Adding missing grouping variables: `year`
-`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.
-`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">valueGraph</span>(<span class="st">"Lionel Messi"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
 </div>
+</div>
+<p>Looking at the values for Lionel Messi, we can call out a few things: First, his high scoring seasons seem to tilt the regression upwards, and since there are a lot of them, there may really be a “greatest of all time” tax. We can also resoanably state that Messi is probably past his peak on account of two factors.</p>
+<p>Primarily, his goals production year-over-year has been decreasing, and his market valuations have been on a similar downturn since 2019. The end is likely(?) year for the 36 year old, who won his record-breaking 8th Ballon D’Or on Monday night.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goalsGraph</span>(<span class="st">"Kylian Mbappé"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">goalsGraph</span>(<span class="st">"Neymar"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>Adding missing grouping variables: `year`
-`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.
-`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">valueGraph</span>(<span class="st">"Neymar"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="672"></p>
 </div>
+</div>
+<p>Looking at the pair of graphs tracking Neymar’s progress above, a couple of interesting points present themselves. It seems as though Neymar’s market value seems relatively untouched or unaffected by his statistical performance, in terms of goals. Neymar’s often been injured, and his impact has been minimized for this reason, but when he’s on the pitch, what he does in undoubted. This specific case shows us the power of narratives - that is, how much a player’s intangibles or uncountable statistics really contribute to their value. Most would tell you that Neymar is the epitome of this category, and it’s safe to say that crowd is probably right.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goalsGraph</span>(<span class="st">"João Félix"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">goalsGraph</span>(<span class="st">"Kylian Mbappé"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>Adding missing grouping variables: `year`
-`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.
-`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
-</div>
-<div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>goalsGraphGA <span class="ot">&lt;-</span> <span class="cf">function</span>(player) {</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tryCatch</span>(</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>      temp <span class="ot">&lt;-</span> player_valuations <span class="sc">|&gt;</span> </span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(player_id <span class="sc">==</span> <span class="fu">get_pid</span>(player)) <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"05"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"06"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"07"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"08"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> temp <span class="sc">|&gt;</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span>  <span class="co"># Create a new column with the year</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">==</span> <span class="fu">max</span>(date)) <span class="sc">|&gt;</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>temp2 <span class="ot">&lt;-</span> <span class="fu">player_stats</span>(player, <span class="st">"all"</span>)</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (row1 <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(temp2)) {</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (row2 <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(temp)) {</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (temp[row2, <span class="st">"year"</span>] <span class="sc">==</span> temp2[row1, <span class="st">"season"</span>] <span class="sc">+</span> <span class="dv">1</span>) {</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>      t <span class="ot">&lt;-</span> <span class="fu">append</span>(t, temp2[row1, <span class="st">"g"</span>] <span class="sc">+</span> temp2[row1, <span class="st">"a"</span>])</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>      u <span class="ot">&lt;-</span> <span class="fu">append</span>(u, temp[row2, <span class="st">"market_value_in_eur"</span>])</span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>      v <span class="ot">&lt;-</span> <span class="fu">append</span>(v, temp[row2, <span class="st">"year"</span>])</span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">goals =</span> <span class="fu">unlist</span>(t), <span class="at">value=</span><span class="fu">unlist</span>(u), <span class="at">season=</span><span class="fu">unlist</span>(v))</span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">color=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">method=</span><span class="st">"lm"</span>) <span class="sc">+</span></span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">label=</span>df<span class="sc">$</span>season) <span class="sc">+</span></span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"G+A"</span>) <span class="sc">+</span></span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Market Value, Euros"</span>) <span class="sc">+</span></span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="fu">paste</span>(player, <span class="st">"Market Value vs. G+A"</span>) , <span class="at">caption=</span><span class="st">"Source: TransferMarkt Data 2011-2023 | By Sashwat Venkatesh"</span>)  <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">error=</span><span class="cf">function</span>(e) {</span>
-<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">'An Error Occurred'</span>)</span>
-<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(e)</span>
-<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">warning=</span><span class="cf">function</span>(w) {</span>
-<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">'A Warning Occurred'</span>)</span>
-<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(w)</span>
-<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>            <span class="fu">return</span>(<span class="cn">NA</span>)</span>
-<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">valueGraph</span>(<span class="st">"Kylian Mbappé"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goalsGraphGA</span>(<span class="st">"Philippe Coutinho"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">goalsGraph</span>(<span class="st">"Antoine Griezmann"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>Adding missing grouping variables: `year`
-`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.
-`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">valueGraph</span>(<span class="st">"Antoine Griezmann"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goalsGraphGA</span>(<span class="st">"Jack Grealish"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>goalsGraphGA <span class="ot">&lt;-</span> <span class="cf">function</span>(player) {</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tryCatch</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>      temp <span class="ot">&lt;-</span> player_valuations <span class="sc">|&gt;</span> </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(player_id <span class="sc">==</span> <span class="fu">get_pid</span>(player)) <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"05"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"06"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"07"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"08"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> temp <span class="sc">|&gt;</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span>  <span class="co"># Create a new column with the year</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">==</span> <span class="fu">max</span>(date)) <span class="sc">|&gt;</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>temp2 <span class="ot">&lt;-</span> <span class="fu">player_stats</span>(player, <span class="st">"all"</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (row1 <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(temp2)) {</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (row2 <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(temp)) {</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (temp[row2, <span class="st">"year"</span>] <span class="sc">==</span> temp2[row1, <span class="st">"season"</span>] <span class="sc">+</span> <span class="dv">1</span>) {</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>      t <span class="ot">&lt;-</span> <span class="fu">append</span>(t, temp2[row1, <span class="st">"g"</span>] <span class="sc">+</span> temp2[row1, <span class="st">"a"</span>])</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>      u <span class="ot">&lt;-</span> <span class="fu">append</span>(u, temp[row2, <span class="st">"market_value_in_eur"</span>])</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>      v <span class="ot">&lt;-</span> <span class="fu">append</span>(v, temp[row2, <span class="st">"year"</span>])</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">goals =</span> <span class="fu">unlist</span>(t), <span class="at">value=</span><span class="fu">unlist</span>(u), <span class="at">season=</span><span class="fu">unlist</span>(v))</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">color=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">method=</span><span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">label=</span>df<span class="sc">$</span>season) <span class="sc">+</span></span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"G+A"</span>) <span class="sc">+</span></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Market Value, Euros"</span>) <span class="sc">+</span></span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="fu">paste</span>(player, <span class="st">"Market Value vs. G+A"</span>) , <span class="at">caption=</span><span class="st">"Source: TransferMarkt Data 2011-2023 | By Sashwat Venkatesh"</span>)  <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">error=</span><span class="cf">function</span>(e) {</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">'An Error Occurred'</span>)</span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(e)</span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">warning=</span><span class="cf">function</span>(w) {</span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">'A Warning Occurred'</span>)</span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(w)</span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>            <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">goalsGraphGA</span>(<span class="st">"Philippe Coutinho"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>Adding missing grouping variables: `year`
-`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.
-`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">valueGraph</span>(<span class="st">"Philippe Coutinho"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goalsGraphGA</span>(<span class="st">"Declan Rice"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">goalsGraphGA</span>(<span class="st">"Jack Grealish"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>Adding missing grouping variables: `year`
-`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.
-`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
-</div>
-<div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>goalsGraphDef <span class="ot">&lt;-</span> <span class="cf">function</span>(player) {</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tryCatch</span>(</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>      temp <span class="ot">&lt;-</span> player_valuations <span class="sc">|&gt;</span> </span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(player_id <span class="sc">==</span> <span class="fu">get_pid</span>(player)) <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"05"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"06"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"07"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"08"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> temp <span class="sc">|&gt;</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span>  <span class="co"># Create a new column with the year</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">==</span> <span class="fu">max</span>(date)) <span class="sc">|&gt;</span></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>temp2 <span class="ot">&lt;-</span> <span class="fu">player_stats</span>(player, <span class="st">"all"</span>)</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (row1 <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(temp2)) {</span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (row2 <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(temp)) {</span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (temp[row2, <span class="st">"year"</span>] <span class="sc">==</span> temp2[row1, <span class="st">"season"</span>] <span class="sc">+</span> <span class="dv">1</span>) {</span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>      t <span class="ot">&lt;-</span> <span class="fu">append</span>(t, temp2[row1, <span class="st">"cs"</span>])</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>      u <span class="ot">&lt;-</span> <span class="fu">append</span>(u, temp[row2, <span class="st">"market_value_in_eur"</span>])</span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>      v <span class="ot">&lt;-</span> <span class="fu">append</span>(v, temp[row2, <span class="st">"year"</span>])</span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">goals =</span> <span class="fu">unlist</span>(t), <span class="at">value=</span><span class="fu">unlist</span>(u), <span class="at">season=</span><span class="fu">unlist</span>(v))</span>
-<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">color=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">method=</span><span class="st">"lm"</span>) <span class="sc">+</span></span>
-<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">label=</span>df<span class="sc">$</span>season) <span class="sc">+</span></span>
-<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Clean Sheets"</span>) <span class="sc">+</span></span>
-<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Market Value, Euros"</span>) <span class="sc">+</span></span>
-<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="fu">paste</span>(player, <span class="st">"Market Value vs. Clean Sheets"</span>) , <span class="at">caption=</span><span class="st">"Source: TransferMarkt Data 2011-2023 | By Sashwat Venkatesh"</span>)  <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
-<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">error=</span><span class="cf">function</span>(e) {</span>
-<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">'An Error Occurred'</span>)</span>
-<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(e)</span>
-<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">warning=</span><span class="cf">function</span>(w) {</span>
-<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">'A Warning Occurred'</span>)</span>
-<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(w)</span>
-<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>            <span class="fu">return</span>(<span class="cn">NA</span>)</span>
-<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">valueGraph</span>(<span class="st">"Jack Grealish"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goalsGraphDef</span>(<span class="st">"Harry Maguire"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">goalsGraphGA</span>(<span class="st">"Declan Rice"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>Adding missing grouping variables: `year`
-`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.
-`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">valueGraph</span>(<span class="st">"Declan Rice"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goalsGraphDef</span>(<span class="st">"Virgil van Dijk"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>goalsGraphDef <span class="ot">&lt;-</span> <span class="cf">function</span>(player) {</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tryCatch</span>(</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>      temp <span class="ot">&lt;-</span> player_valuations <span class="sc">|&gt;</span> </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(player_id <span class="sc">==</span> <span class="fu">get_pid</span>(player)) <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"05"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"06"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"07"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"08"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> temp <span class="sc">|&gt;</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span>  <span class="co"># Create a new column with the year</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">==</span> <span class="fu">max</span>(date)) <span class="sc">|&gt;</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>temp2 <span class="ot">&lt;-</span> <span class="fu">player_stats</span>(player, <span class="st">"all"</span>)</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (row1 <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(temp2)) {</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (row2 <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(temp)) {</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (temp[row2, <span class="st">"year"</span>] <span class="sc">==</span> temp2[row1, <span class="st">"season"</span>] <span class="sc">+</span> <span class="dv">1</span>) {</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>      t <span class="ot">&lt;-</span> <span class="fu">append</span>(t, temp2[row1, <span class="st">"cs"</span>])</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>      u <span class="ot">&lt;-</span> <span class="fu">append</span>(u, temp[row2, <span class="st">"market_value_in_eur"</span>])</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>      v <span class="ot">&lt;-</span> <span class="fu">append</span>(v, temp[row2, <span class="st">"year"</span>])</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">goals =</span> <span class="fu">unlist</span>(t), <span class="at">value=</span><span class="fu">unlist</span>(u), <span class="at">season=</span><span class="fu">unlist</span>(v))</span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">color=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">method=</span><span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">label=</span>df<span class="sc">$</span>season) <span class="sc">+</span></span>
+<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Clean Sheets"</span>) <span class="sc">+</span></span>
+<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Market Value, Euros"</span>) <span class="sc">+</span></span>
+<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="fu">paste</span>(player, <span class="st">"Market Value vs. Clean Sheets"</span>) , <span class="at">caption=</span><span class="st">"Source: TransferMarkt Data 2011-2023 | By Sashwat Venkatesh"</span>)  <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">error=</span><span class="cf">function</span>(e) {</span>
+<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">'An Error Occurred'</span>)</span>
+<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(e)</span>
+<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">warning=</span><span class="cf">function</span>(w) {</span>
+<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">'A Warning Occurred'</span>)</span>
+<span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(w)</span>
+<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a>            <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">goalsGraphDef</span>(<span class="st">"Harry Maguire"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>Adding missing grouping variables: `year`
-`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.
-`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">valueGraph</span>(<span class="st">"Harry Maguire"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goalsGraphDef</span>(<span class="st">"Wesley Fofana"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">goalsGraphDef</span>(<span class="st">"Matthijs de Ligt"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>Adding missing grouping variables: `year`
-`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.
-`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">valueGraph</span>(<span class="st">"Matthijs de Ligt"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goalsGraphDef</span>(<span class="st">"Lucas Hernández"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">goalsGraphDef</span>(<span class="st">"Lucas Hernández"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>Adding missing grouping variables: `year`
-`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.
-`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
-</div>
-<div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goalsGraphDef</span>(<span class="st">"Kepa Arrizabalaga"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">valueGraph</span>(<span class="st">"Lucas Hernández"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Adding missing grouping variables: `year`
-`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.
-`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-17-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goalsGraphDef</span>(<span class="st">"Alisson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>goalsGraphGK <span class="ot">&lt;-</span> <span class="cf">function</span>(player) {</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tryCatch</span>(</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>      temp <span class="ot">&lt;-</span> player_valuations <span class="sc">|&gt;</span> </span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(player_id <span class="sc">==</span> <span class="fu">get_pid</span>(player)) <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"05"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"06"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"07"</span> <span class="sc">|</span> <span class="fu">format</span>(date, <span class="st">"%m"</span>) <span class="sc">==</span> <span class="st">"08"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date)</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> temp <span class="sc">|&gt;</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span>  <span class="co"># Create a new column with the year</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">==</span> <span class="fu">max</span>(date)) <span class="sc">|&gt;</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>temp2 <span class="ot">&lt;-</span> <span class="fu">player_stats</span>(player, <span class="st">"all"</span>)</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (row1 <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(temp2)) {</span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (row2 <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(temp)) {</span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (temp[row2, <span class="st">"year"</span>] <span class="sc">==</span> temp2[row1, <span class="st">"season"</span>] <span class="sc">+</span> <span class="dv">1</span>) {</span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>      t <span class="ot">&lt;-</span> <span class="fu">append</span>(t, temp2[row1, <span class="st">"cs"</span>])</span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>      u <span class="ot">&lt;-</span> <span class="fu">append</span>(u, temp[row2, <span class="st">"market_value_in_eur"</span>])</span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>      v <span class="ot">&lt;-</span> <span class="fu">append</span>(v, temp[row2, <span class="st">"year"</span>])</span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-31"><a href="#cb39-31" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">goals =</span> <span class="fu">unlist</span>(t), <span class="at">value=</span><span class="fu">unlist</span>(u), <span class="at">season=</span><span class="fu">unlist</span>(v))</span>
+<span id="cb39-32"><a href="#cb39-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-33"><a href="#cb39-33" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb39-34"><a href="#cb39-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">color=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb39-35"><a href="#cb39-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">method=</span><span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb39-36"><a href="#cb39-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>goals, <span class="at">y=</span>value), <span class="at">label=</span>df<span class="sc">$</span>season) <span class="sc">+</span></span>
+<span id="cb39-37"><a href="#cb39-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Clean Sheets"</span>) <span class="sc">+</span></span>
+<span id="cb39-38"><a href="#cb39-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Market Value, Euros"</span>) <span class="sc">+</span></span>
+<span id="cb39-39"><a href="#cb39-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="fu">paste</span>(player, <span class="st">"Market Value vs. Clean Sheets"</span>) , <span class="at">caption=</span><span class="st">"Source: TransferMarkt Data 2011-2023 | By Sashwat Venkatesh"</span>)  <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb39-40"><a href="#cb39-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-41"><a href="#cb39-41" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb39-42"><a href="#cb39-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">error=</span><span class="cf">function</span>(e) {</span>
+<span id="cb39-43"><a href="#cb39-43" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">'An Error Occurred'</span>)</span>
+<span id="cb39-44"><a href="#cb39-44" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(e)</span>
+<span id="cb39-45"><a href="#cb39-45" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb39-46"><a href="#cb39-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">warning=</span><span class="cf">function</span>(w) {</span>
+<span id="cb39-47"><a href="#cb39-47" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">'A Warning Occurred'</span>)</span>
+<span id="cb39-48"><a href="#cb39-48" aria-hidden="true" tabindex="-1"></a>            <span class="fu">print</span>(w)</span>
+<span id="cb39-49"><a href="#cb39-49" aria-hidden="true" tabindex="-1"></a>            <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb39-50"><a href="#cb39-50" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb39-51"><a href="#cb39-51" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb39-52"><a href="#cb39-52" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">goalsGraphGK</span>(<span class="st">"Kepa Arrizabalaga"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>Adding missing grouping variables: `year`
-`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.
-`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">valueGraph</span>(<span class="st">"Kepa Arrizabalaga"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">goalsGraphDef</span>(<span class="st">"André Onana"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">goalsGraphGK</span>(<span class="st">"Alisson"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>Adding missing grouping variables: `year`
-`summarise()` has grouped output by 'player_id', 'player_name'. You can
-override using the `.groups` argument.
-`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">valueGraph</span>(<span class="st">"Alisson"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-20-2.png" class="img-fluid" width="672"></p>
 </div>
-<p>Players skipped and reasoning: - Enzo Fernandez, Midfielders: &lt;3 seasons - Josko Gvardiol, Defender: &lt;3 seasons</p>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">goalsGraphGK</span>(<span class="st">"André Onana"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">valueGraph</span>(<span class="st">"André Onana"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-21-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Looking at the pairs of graphs above, we can make some generalized conclusions and bucket players into some broad categories. Players like Kylian Mbappe, Jack Grealish, and Declan Rice are just entering their peaks, or are at least in the period of time where a player’s value baloons at the greatest rate. More “developed” players like Matthijs de Light, Lucas Hernandez, and Andre Onana seem to have found the spot in their careers where they are at their peak of market value and performance, and would almost certainly be shoe-ins to most, if not all, teams in the world.</p>
+<p>Other players, like GKs Alisson, Kepa, as well as CB Harry Maguire, and Forwards Phillipe Coutinho and Antoine Griezmann are seemingly “past their prime” in terms of market value, but are mainstages in their teams at Liverpool, Real Madrid (on loan from Chelsea), Manchester United, Aston Villa, and Atletico Madrid, respectively.</p>
+<p>While the above players were selected for a variety of reasons, the main reason was their status as the players who had the highest transfer fees at their respective general positions (F, M, D, G). Goals were used to estimate forwards’ production, while the sum of goals and assists were used to estimate the production value of midfielders. Clean sheets (a VERY rough statistic) were used to estimate the performance of defenders and goalkeepers.</p>
+<p>Given the above conditions, however, there were some players I had to skip over. Enzo Fernandez(M, Chelsea) and Josko Gvardiol(D, Manchester City) were skipped due to a lack of season data in the TransferMarkt dataset. This is reasonable, since they are both now just playing their 3rd and 4th full seasons in major soccer leagues, and as such, their data was incredibly skewed. Joao Felix, a forward for FC Barcelona on loan from Atletico Madrid, was excluded despite being the 3rd highest transfer fee signing of all time due to a variety of injuries and loans that have hampered his playing time, despite having a handful of seasons under his belt. Wesley Fofana, a defender for Chelsea, was skipped for a similar reason, having only played 24 league games in the last 3 full seasons.</p>
 
 
 

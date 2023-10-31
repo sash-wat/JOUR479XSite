@@ -51,6 +51,9 @@ if (year == "all") {
     g = sum(goals),
     a = sum(assists),
     cs = sum(clean_sheet),
+    yc = sum(yellow_cards),
+    rc = sum(red_cards),
+    app = n()
   ) |> filter(player_name == name)
 }
 else {
@@ -67,10 +70,10 @@ df
 ```
 
 
-Using the data, we're actually able to extract players' season by season data, finding out how many goals, assists, clean sheets, and any other values we want per season. I've limited this to
+Using the data, we're actually able to extract players' season by season data, finding out how many goals, assists, clean sheets, and any other values we want per season. I've limited this to the key statistics, which include goals, assists, clean sheets, yellow cards, red cards, and appearances.
 
 ```{r}
-head(player_stats("Lionel Messi", "all"))
+suppressMessages(head(player_stats("Lionel Messi", "all")))
 ```
 ```{r}
 get_pid <- function(player) {
@@ -150,19 +153,52 @@ ggplot() +
 
 
 ```{r}
-goalsGraph("Lionel Messi")
+valueGraph <- function(player) {
+      temp <- player_valuations |> 
+  filter(player_id == get_pid(player)) |> filter(format(date, "%m") == "05" | format(date, "%m") == "06" | format(date, "%m") == "07" | format(date, "%m") == "08") |> 
+  arrange(date)
+
+temp <- temp |>
+  mutate(year = lubridate::year(date)) |>  # Create a new column with the year
+  group_by(year) |>
+  filter(date == max(date)) |>
+  select(-year)
+
+ggplot() +
+  geom_line(data=temp, aes(x=year, y=market_value_in_eur)) + 
+  ylab("Market Value, Euros") +
+  xlab("Season") +
+  labs(title=paste(player, "Market Value by Season") , caption="Source: TransferMarkt Data 2011-2023 | By Sashwat Venkatesh")
+  
+  }
+```
+
+
+```{r}
+suppressMessages(goalsGraph("Lionel Messi"))
+suppressMessages(valueGraph("Lionel Messi"))
+```
+
+
+Looking at the values for Lionel Messi, we can call out a few things: First, his high scoring seasons seem to tilt the regression upwards, and since there are a lot of them, there may really be a "greatest of all time" tax. We can also resoanably state that Messi is probably past his peak on account of two factors.
+
+Primarily, his goals production year-over-year has been decreasing, and his market valuations have been on a similar downturn since 2019. The end is likely(?) year for the 36 year old, who won his record-breaking 8th Ballon D'Or on Monday night.
+
+```{r}
+suppressMessages(goalsGraph("Neymar"))
+suppressMessages(valueGraph("Neymar"))
+```
+
+Looking at the pair of graphs tracking Neymar's progress above, a couple of interesting points present themselves. It seems as though Neymar's market value seems relatively untouched or unaffected by his statistical performance, in terms of goals. Neymar's often been injured, and his impact has been minimized for this reason, but when he's on the pitch, what he does in undoubted. This specific case shows us the power of narratives - that is, how much a player's intangibles or uncountable statistics really contribute to their value. Most would tell you that Neymar is the epitome of this category, and it's safe to say that crowd is probably right.
+
+```{r}
+suppressMessages(goalsGraph("Kylian Mbappé"))
+suppressMessages(valueGraph("Kylian Mbappé"))
 ```
 
 ```{r}
-goalsGraph("Neymar")
-```
-
-```{r}
-goalsGraph("Kylian Mbappé")
-```
-
-```{r}
-goalsGraph("João Félix")
+suppressMessages(goalsGraph("Antoine Griezmann"))
+suppressMessages(valueGraph("Antoine Griezmann"))
 ```
 
 ```{r}
@@ -222,16 +258,20 @@ ggplot() +
 ```
 
 ```{r}
-goalsGraphGA("Philippe Coutinho")
+suppressMessages(goalsGraphGA("Philippe Coutinho"))
+suppressMessages(valueGraph("Philippe Coutinho"))
 ```
 
 ```{r}
-goalsGraphGA("Jack Grealish")
+suppressMessages(goalsGraphGA("Jack Grealish"))
+suppressMessages(valueGraph("Jack Grealish"))
 ```
 
 ```{r}
-goalsGraphGA("Declan Rice")
+suppressMessages(goalsGraphGA("Declan Rice"))
+suppressMessages(valueGraph("Declan Rice"))
 ```
+
 ```{r}
 goalsGraphDef <- function(player) {
   tryCatch(
@@ -284,43 +324,101 @@ ggplot() +
             return(NA)
     }
   )
-  
+}
+```
+
+
+```{r}
+suppressMessages(goalsGraphDef("Harry Maguire"))
+suppressMessages(valueGraph("Harry Maguire"))
+```
+
+```{r}
+suppressMessages(goalsGraphDef("Matthijs de Ligt"))
+suppressMessages(valueGraph("Matthijs de Ligt"))
+```
+
+```{r}
+suppressMessages(goalsGraphDef("Lucas Hernández"))
+suppressMessages(valueGraph("Lucas Hernández"))
+```
+
+```{r}
+goalsGraphGK <- function(player) {
+  tryCatch(
+    {
+      temp <- player_valuations |> 
+  filter(player_id == get_pid(player)) |> filter(format(date, "%m") == "05" | format(date, "%m") == "06" | format(date, "%m") == "07" | format(date, "%m") == "08") |> 
+  arrange(date)
+
+temp <- temp |>
+  mutate(year = lubridate::year(date)) |>  # Create a new column with the year
+  group_by(year) |>
+  filter(date == max(date)) |>
+  select(-year)
+
+temp2 <- player_stats(player, "all")
+
+t <- list()
+u <- list()
+v <- list()
+
+for (row1 in 1:nrow(temp2)) {
+  for (row2 in 1:nrow(temp)) {
+    if (temp[row2, "year"] == temp2[row1, "season"] + 1) {
+      t <- append(t, temp2[row1, "cs"])
+      u <- append(u, temp[row2, "market_value_in_eur"])
+      v <- append(v, temp[row2, "year"])
+    }
   }
-```
+  
+}
 
+df <- data.frame(goals = unlist(t), value=unlist(u), season=unlist(v))
+
+ggplot() +
+  geom_point(data=df, aes(x=goals, y=value), color="red") +
+  geom_smooth(data=df, aes(x=goals, y=value), method="lm") +
+  geom_text_repel(data=df, aes(x=goals, y=value), label=df$season) +
+  xlab("Clean Sheets") +
+  ylab("Market Value, Euros") +
+  labs(title=paste(player, "Market Value vs. Clean Sheets") , caption="Source: TransferMarkt Data 2011-2023 | By Sashwat Venkatesh")  + theme_minimal()
+
+    },
+    error=function(e) {
+            message('An Error Occurred')
+            print(e)
+    },
+    warning=function(w) {
+            message('A Warning Occurred')
+            print(w)
+            return(NA)
+    }
+  )
+}
+```
 
 
 
 ```{r}
-goalsGraphDef("Harry Maguire")
+suppressMessages(goalsGraphGK("Kepa Arrizabalaga"))
+suppressMessages(valueGraph("Kepa Arrizabalaga"))
 ```
 
 ```{r}
-goalsGraphDef("Virgil van Dijk")
+suppressMessages(goalsGraphGK("Alisson"))
+suppressMessages(valueGraph("Alisson"))
 ```
 
 ```{r}
-goalsGraphDef("Wesley Fofana")
+suppressMessages(goalsGraphGK("André Onana"))
+suppressMessages(valueGraph("André Onana"))
 ```
 
-```{r}
-goalsGraphDef("Lucas Hernández")
-```
+Looking at the pairs of graphs above, we can make some generalized conclusions and bucket players into some broad categories. Players like Kylian Mbappe, Jack Grealish, and Declan Rice are just entering their peaks, or are at least in the period of time where a player's value baloons at the greatest rate. More "developed" players like Matthijs de Light, Lucas Hernandez, and Andre Onana seem to have found the spot in their careers where they are at their peak of market value and performance, and would almost certainly be shoe-ins to most, if not all, teams in the world. 
 
+Other players, like GKs Alisson, Kepa, as well as CB Harry Maguire, and Forwards Phillipe Coutinho and Antoine Griezmann are seemingly "past their prime" in terms of market value, but are mainstages in their teams at Liverpool, Real Madrid (on loan from Chelsea), Manchester United, Aston Villa, and Atletico Madrid, respectively.
 
-```{r}
-goalsGraphDef("Kepa Arrizabalaga")
-```
+While the above players were selected for a variety of reasons, the main reason was their status as the players who had the highest transfer fees at their respective general positions (F, M, D, G). Goals were used to estimate forwards' production, while the sum of goals and assists were used to estimate the production value of midfielders. Clean sheets (a VERY rough statistic) were used to estimate the performance of defenders and goalkeepers.
 
-```{r}
-goalsGraphDef("Alisson")
-```
-
-```{r}
-goalsGraphDef("André Onana")
-```
-
-
-Players skipped and reasoning:
-- Enzo Fernandez, Midfielders: <3 seasons
-- Josko Gvardiol, Defender: <3 seasons
+Given the above conditions, however, there were some players I had to skip over. Enzo Fernandez(M, Chelsea) and Josko Gvardiol(D, Manchester City) were skipped due to a lack of season data in the TransferMarkt dataset. This is reasonable, since they are both now just playing their 3rd and 4th full seasons in major soccer leagues, and as such, their data was incredibly skewed. Joao Felix, a forward for FC Barcelona on loan from Atletico Madrid, was excluded despite being the 3rd highest transfer fee signing of all time due to a variety of injuries and loans that have hampered his playing time, despite having a handful of seasons under his belt. Wesley Fofana, a defender for Chelsea, was skipped for a similar reason, having only played 24 league games in the last 3 full seasons.
