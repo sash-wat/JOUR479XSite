@@ -1,5 +1,5 @@
 ---
-title: "sashvenk479xblog"
+title: "Between the Points"
 listing:
   contents: posts
   sort: "date desc"

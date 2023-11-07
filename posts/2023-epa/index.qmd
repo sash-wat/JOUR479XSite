@@ -127,3 +127,109 @@ ggplot() +
 Looking at our biggest losers gpaph, Miami is a striking regression down from their hot start. Pundits and talking heads were certain that after a 5-3 start that eventually became 8-3, the Dolphins were destined for something big come playoff time. However, those Dolphins continued their downward dive, lost 5 on the bounce, and bailed themselves out in Week 18 with an 11-6 win over the New York Jets. The data showed us that maybe the Dolphins weren't destined for something great, but we have to take this with a grain of salt, considering the absolutely shambolic handling of Quarterback Tua Tagovailoa's concussions.
 
 To wrap things up, by week 8, or about 50% of the season, we can get a rough idea as to where teams will end up. Teams that start hot and regress may have some hope, but we can also definitely say that it's not fair to write off teams that start slow. This data can only tell us, and show us so much, but without a doubt, there's something to be said about being red-hot in the redzone.
+
+
+
+------------------------------------------------------------------========================================
+
+Does it pay to be hot early on, or is it better to peak later in the season? Some 2022 NFL teams may give you different answers than others, but let's see if there's something bubbling under the sea of data we have available.
+
+```{r}
+suppressMessages(library(tidyverse))
+suppressMessages(library(nflreadr))
+suppressMessages(library(ggplot2))
+suppressMessages(library(ggrepel))
+suppressMessages(library(ggalt))
+```
+
+```{r}
+plays2022 <- load_pbp(
+  seasons = c(2000)
+)
+```
+
+```{r}
+plays2022 <- plays2022 |> filter(play_type == "run" | play_type == "pass")
+```
+
+
+```{r}
+plays2022_3 <- plays2022 |> filter(week <= 3) |> filter(yardline_100 <= 20)
+redzone2022_3 <- plays2022_3 |> group_by(posteam) |> 
+  summarise(`RZ Plays Through W3` = n(), 
+            `Total EPA from RZ Plays Through W3` = sum(epa), 
+            `EPA per RZ Play Through W3` = sum(epa)/n())
+
+head(redzone2022_3 |> arrange(desc(`EPA per RZ Play Through W3`)))
+```
+
+```{r}
+plays2022_8 <- plays2022 |> filter(week <= 8) |> filter(yardline_100 <= 20)
+redzone2022_8 <- plays2022_8 |> group_by(posteam) |> 
+  summarise(`RZ Plays Through W8` = n(), 
+            `Total EPA from RZ Plays Through W8` = sum(epa),
+            `EPA per RZ Play Through W8` = sum(epa)/n())
+
+head(redzone2022_8 |> arrange(desc(`EPA per RZ Play Through W8`)))
+```
+
+```{r}
+combined <- merge(redzone2022_3, redzone2022_8 ,by="posteam")
+combined <- combined |> mutate(`Change from W3 to W8` = `EPA per RZ Play Through W8` - `EPA per RZ Play Through W3`)
+```
+```{r}
+head(combined |> arrange(desc(`Change from W3 to W8`)) |>
+  select(posteam, "EPA per RZ Play Through W3", "EPA per RZ Play Through W8", "Change from W3 to W8"))
+```
+
+```{r}
+head(combined |> arrange((`Change from W3 to W8`)) |>
+  select(posteam, "EPA per RZ Play Through W3", "EPA per RZ Play Through W8", "Change from W3 to W8"))
+```
+
+
+```{r}
+increase <- combined |> filter(`EPA per RZ Play Through W3` < `EPA per RZ Play Through W8`)
+decrease <- combined |> filter(`EPA per RZ Play Through W3` > `EPA per RZ Play Through W8`)
+
+ggplot() + 
+  geom_dumbbell(
+    data=increase, 
+    aes(y=reorder(posteam, `EPA per RZ Play Through W8`), 
+        x= `EPA per RZ Play Through W3`, xend=`EPA per RZ Play Through W8`),
+    colour = "grey",
+    colour_x = "green",
+    colour_xend = "blue",
+    size=1
+  ) +
+  xlab("Expected Points Added per RZ Play") +
+  ylab("Team") +
+  labs(title="Minnesota, NY Jets Amongst Biggest Increases in EPA per RZ Play", subtitle="18 of the NFL's teams saw an increase in EPA per RZ Play from 2022 Week 3 to Week 8",
+       caption="NFL Data | By: Sashwat Venkatesh")
+
+```
+
+
+```{r}
+ggplot() + 
+  geom_dumbbell(
+    data=decrease, 
+    aes(y=reorder(posteam, `EPA per RZ Play Through W8`), 
+        x= `EPA per RZ Play Through W3`, xend=`EPA per RZ Play Through W8`),
+    colour = "grey",
+    colour_x = "green",
+    colour_xend = "blue",
+    size=1
+  ) +
+  xlab("Expected Points Added per RZ Play") +
+  ylab("Team") +
+  labs(title="Chicago, Detroit Amongst Biggest Decreases in EPA per RZ Play", subtitle="14 of the NFL's teams saw an decrease in EPA per RZ Play from Week 3 to Week 8",
+       caption="NFL Data | By: Sashwat Venkatesh") +
+  scale_color_manual(name = "", values = c("red", "blue") )
+```
+
+
+
+
+
+
