@@ -447,11 +447,11 @@ Some downfalls to my new methodology:
 library(rvest)
 library(janitor)
 library(ggplot2)
-getFBRefData <- function(url, gk="no") {
+getFBRefData <- function(url, pos="A/M") {
   
   
   webpage <- read_html(url)
-  if (gk == "no") {
+  if (pos == "A/M") {
     table_id <- "stats_standard_dom_lg"
     p3 <- webpage %>% html_node(paste("#", table_id, sep = "")) %>% html_table()
     p3 <- row_to_names(p3, 1, remove_rows_above = FALSE)
@@ -462,7 +462,7 @@ getFBRefData <- function(url, gk="no") {
     p3 <- p3 |> mutate_at(7:25, as.numeric) #turn all the actual data columns into numbers 
     return(p3)
   }
-  if (gk =="yes") {
+  if (pos =="GK") {
     table_id <- "stats_keeper_dom_lg"
     p3 <- webpage %>% html_node(paste("#", table_id, sep = "")) %>% html_table()
     p3 <- row_to_names(p3, 1, remove_rows_above = FALSE)
@@ -475,12 +475,25 @@ getFBRefData <- function(url, gk="no") {
     p3 <- p3 |> mutate_at(7:25, as.numeric) #turn all the actual data columns into numbers 
     return(p3)
   }
+  if (pos =="DEF") {
+    table_id <- "stats_defense_dom_lg"
+    p3 <- webpage %>% html_node(paste("#", table_id, sep = "")) %>% html_table()
+    p3 <- row_to_names(p3, 1, remove_rows_above = FALSE)
+    names(p3)[13] <- "TklChall"
+    p3 <- p3 |> select(1:23)
+    regex <- "[0-9]{4}-[0-9]{4}|[0-9]{4}"
+    p3 <- p3 |> filter(cumsum(!grepl(regex, Season)) == 0) #This line drops all rows after the individual seasons
+    #p3$Min <- as.numeric(gsub(",", "", p3$Min))
+    p3 <- p3 |> mutate_at(7:23, as.numeric) #turn all the actual data columns into numbers 
+    return(p3)
+  }
+  
   
 }
 
 ```
 ```{r}
-temp <- getFBRefData("https://fbref.com/en/players/7a2e46a8/Alisson", "yes")
+temp <- getFBRefData("https://fbref.com/en/players/132a82f1/Wesley-Fofana", "DEF")
 
 temp
 ```
