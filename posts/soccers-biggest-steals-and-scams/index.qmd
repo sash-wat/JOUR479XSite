@@ -426,3 +426,64 @@ Given the above conditions, however, there were some players I had to skip over.
 ############ November 20th:
 
 My largest question is merging the datasets in a way that will allow me to make effective queries on the data. The data from Football Reference isn't structured the same way as the data from TransferMarkt, and focusing on how I can aggregate each season's statistics and then merge onto my original dataframes in order to make the analysis more robust.
+
+############# December 3rd:
+I've realized that Football Reference is the holy grail. Not that this was ever really in doubt, but I was doing things in a really convulted and silly way by going through a lot of Relational Database work to get the same information/tables that FBRef already has aggregated. The only data that I really need from the TransferMarkt dataset now is the player_valuations set, on which I already have a function to generate a player's valuation by season above. I think I'm going to scrap a lot of the above graphics and writing, since it's really chaotic, and from the (much simpler) code below, we can see that there's a much easier way to do things.
+
+Below is a function using Rvest and janitoR that allows me to scrape season-by-season domestic league data for any player that FBRef has in their database. I had to use some regex (line 447) to get this to work. See https://fbref.com/en/players/1f44ac21/Erling-Haaland for an example of why the or condition in the regex is required, as well as in general why the regex is required. I've also dropped the per 90 stats, because we have a 90s column that can be used to calculate these values on the fly. Having the 90s values also makes ggplot upset beacuse we have "duplicate column names" that somehow have different data.
+
+I also had to build in positional logic, because goalies and defenders shouldn't be judged on the same statistics as Midfielders and attackers.
+
+In terms of visuals, I think I'll be using line charts like I used in the first presentation, but also I'm going to try and use some sort of chart that shows what variables contribute most to a player's value. For example, can I (even roughly) quantify how much a Striker's goal tally contributes to their value as compared to their assist tally? I'm thinking of doing a coefficient analysis and also looking at p-values to make this happen. 
+
+FBRef has the extra "advanced" statistics that I really wanted, like progressive carries and passes, but also xG and xA, which I can use to get a better understanding of a player's value.
+
+Some downfalls to my new methodology:
+1. I'm only looking at domestic league games. While this should be the majority of the games a player plays, it still omits what I would consider a non-insignificant amount of games from my dataset.
+2. There's some inconsistency with data tracking across leagues. For example, the Premier League had some advanced metrics before a league like the Austrian Bundesliga, so it's something to keep in mind. 
+
+
+```{r}
+library(rvest)
+library(janitor)
+library(ggplot2)
+getFBRefData <- function(url, gk="no") {
+  
+  
+  webpage <- read_html(url)
+  if (gk == "no") {
+    table_id <- "stats_standard_dom_lg"
+    p3 <- webpage %>% html_node(paste("#", table_id, sep = "")) %>% html_table()
+    p3 <- row_to_names(p3, 1, remove_rows_above = FALSE)
+    p3 <- p3 |> select(1:25)
+    regex <- "[0-9]{4}-[0-9]{4}|[0-9]{4}"
+    p3 <- p3 |> filter(cumsum(!grepl(regex, Season)) == 0) #This line drops all rows after the individual seasons
+    p3$Min <- as.numeric(gsub(",", "", p3$Min))
+    p3 <- p3 |> mutate_at(7:25, as.numeric) #turn all the actual data columns into numbers 
+    return(p3)
+  }
+  if (gk =="yes") {
+    table_id <- "stats_keeper_dom_lg"
+    p3 <- webpage %>% html_node(paste("#", table_id, sep = "")) %>% html_table()
+    p3 <- row_to_names(p3, 1, remove_rows_above = FALSE)
+    names(p3)[15] <- "NormalSave%"
+    names(p3)[25] <- "PenSave%"
+    p3 <- p3 |> select(1:25)
+    regex <- "[0-9]{4}-[0-9]{4}|[0-9]{4}"
+    p3 <- p3 |> filter(cumsum(!grepl(regex, Season)) == 0) #This line drops all rows after the individual seasons
+    p3$Min <- as.numeric(gsub(",", "", p3$Min))
+    p3 <- p3 |> mutate_at(7:25, as.numeric) #turn all the actual data columns into numbers 
+    return(p3)
+  }
+  
+}
+
+```
+```{r}
+temp <- getFBRefData("https://fbref.com/en/players/7a2e46a8/Alisson", "yes")
+
+temp
+```
+
+
+
