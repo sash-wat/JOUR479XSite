@@ -326,7 +326,7 @@ ggplot() +
   theme_minimal() +
   ylab("Forward") +
   xlab("Value") +
-  labs(title="Forwards With Most Added Value", subtitle="Market Values in Green, Predicted Values in Red", caption="Source: FBRef & TransferMarkt | By Sashwat Venkatesh")
+  labs(title="Forwards who are Undervalued", subtitle="Market Values in Green, Predicted Values in Red", caption="Source: FBRef & TransferMarkt | By Sashwat Venkatesh")
 ```
 ```{r}
 bubbledata3 <- head(new_data |> arrange(`Differential`))
