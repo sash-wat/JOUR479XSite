@@ -368,7 +368,7 @@ Coefficient Value
 Non-Penalty xG
 </td>
 <td style="text-align:right;">
-38501036.82
+41107493.97
 </td>
 </tr>
 <tr>
@@ -376,7 +376,7 @@ Non-Penalty xG
 Non-Penalty Goals
 </td>
 <td style="text-align:right;">
-21172802.65
+21826603.91
 </td>
 </tr>
 <tr>
@@ -384,7 +384,7 @@ Non-Penalty Goals
 Assists
 </td>
 <td style="text-align:right;">
-10615685.63
+12646703.48
 </td>
 </tr>
 <tr>
@@ -392,7 +392,7 @@ Assists
 npxG + xAG
 </td>
 <td style="text-align:right;">
-9988091.92
+6989936.76
 </td>
 </tr>
 <tr>
@@ -400,7 +400,7 @@ npxG + xAG
 Progressive Carries
 </td>
 <td style="text-align:right;">
-2430498.27
+2491310.62
 </td>
 </tr>
 <tr>
@@ -408,7 +408,7 @@ Progressive Carries
 Touches (Att Pen)
 </td>
 <td style="text-align:right;">
-2180585.28
+2276250.17
 </td>
 </tr>
 <tr>
@@ -416,7 +416,7 @@ Touches (Att Pen)
 Successful Take-Ons
 </td>
 <td style="text-align:right;">
-690751.68
+930076.49
 </td>
 </tr>
 <tr>
@@ -424,7 +424,7 @@ Successful Take-Ons
 Pass Completion %
 </td>
 <td style="text-align:right;">
-78719.21
+93264.29
 </td>
 </tr>
 <tr>
@@ -432,7 +432,7 @@ Pass Completion %
 Tackles
 </td>
 <td style="text-align:right;">
--980684.38
+-1315583.62
 </td>
 </tr>
 <tr>
@@ -440,7 +440,7 @@ Tackles
 Blocks
 </td>
 <td style="text-align:right;">
--1657766.55
+-1917530.32
 </td>
 </tr>
 <tr>
@@ -448,7 +448,7 @@ Blocks
 (Intercept)
 </td>
 <td style="text-align:right;">
--28394597.98
+-29666998.61
 </td>
 </tr>
 </tbody>
@@ -502,7 +502,7 @@ Blocks
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Number of players with predicted values higher than market values:"</span>, <span class="fu">as.character</span>(lt1m)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Number of players with predicted values higher than market values: 153"</code></pre>
+<pre><code>[1] "Number of players with predicted values higher than market values: 152"</code></pre>
 </div>
 </div>
 <p>We can see that over hald of the players in our dataset have a negative differential. This indicates that there are a handful of values above the predicted value line that skews the output of the regression. This would indicate some level of significance and accuracy in the model we’ve generated. If we adjust for these outliers, there’s a hint that we would be able to get greater accuracy from our model.</p>
@@ -613,7 +613,7 @@ Blocks
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Forward"</span>) <span class="sc">+</span></span>
 <span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Value"</span>) <span class="sc">+</span></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Forwards With Most Added Value"</span>, <span class="at">subtitle=</span><span class="st">"Market Values in Green, Predicted Values in Red"</span>, <span class="at">caption=</span><span class="st">"Source: FBRef &amp; TransferMarkt | By Sashwat Venkatesh"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Forwards who are Undervalued"</span>, <span class="at">subtitle=</span><span class="st">"Market Values in Green, Predicted Values in Red"</span>, <span class="at">caption=</span><span class="st">"Source: FBRef &amp; TransferMarkt | By Sashwat Venkatesh"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
